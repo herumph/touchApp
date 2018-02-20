@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+
+    <script type="text/javascript" src="{{ url_for('static', filename='js/dateTime.js') }}"> </script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/stats.js') }}"> </script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/lights.js') }}"> </script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/weather.js') }}"> </script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/roomStats.js') }}"> </script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<style type="text/css">
+    html, body{
+        width: 100%; 
+        height: 100%; 
+        padding: 0; 
+        margin: 0px;
+        overflow: hidden;
+    }
+
+    div{
+        position: absolute; 
+        padding: 1em; 
+        border: 0px;
+    }
+
+    #time {
+        left: 0;
+        line-height: 100px;
+        margin-top: -50px;
+        position: absolute;
+        text-align: center;
+        top: 5%;
+        width: 100%;
+        color: #ffffff;
+    }
+
+    #nw {
+        background: #000000; 
+        top: 0; 
+        left: 0; 
+        right: 50%; 
+        bottom: 50%; 
+        color:#ffffff;
+    }
+
+    #ne {
+        background: #000000; 
+        top: 0; 
+        left: 50%; 
+        right: 0; 
+        bottom: 50%; 
+        color:#ffffff;
+    }
+
+    #sw {
+        background: #000000; 
+        top: 50%; 
+        left: 0; 
+        right: 50%; 
+        bottom: 0; 
+        color:#ffffff;
+    }
+
+    #se {
+        background: #000000; 
+        top: 50%; 
+        left: 50%; 
+        right: 0; 
+        bottom: 0; 
+        color:#ffffff;
+    } 
+
+    .btn {
+        color: #ffffff;
+        font-size: 20px;
+        background: #575757;
+        padding: 10px 20px 10px 20px;
+        text-decoration: none;
+        margin-top: 50px;
+        text-align: center;
+        width: 100%;
+    }
+
+    .btn:hover {
+        text-decoration: none;
+    } .slidecontainer {
+    width: 90%;
+    }
+
+    .slider {
+        -webkit-appearance: none;
+        width: 95%;
+        height: 25px;
+        background: #d3d3d3;
+        margin-bottom: -10px;
+        outline: none;
+        opacity: 0.7;
+        -webkit-transition: .2s;
+        transition: opacity .2s;
+    }
+
+    .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 25px;
+        height: 25px;
+        background: #ffffff;
+        cursor: pointer;
+    }
+</style>
+
+<body>
+    <div id="nw"> 
+        <span> Room: </span>
+        <br>
+        <br>
+        <span id="nw_1"></span>
+        <br>
+        <span id="nw_2"></span>
+        <br>
+        <span id="nw_3"></span>
+    </div>
+
+    <div id="ne"> 
+        <button class="btn" onclick="lights()" > Lights on/off </button>
+
+        <div class="slidecontainer">
+            <input type="range" min="0" max="255" value="50" class="slider" id="redSlide">
+        </div>
+        <br><br><br>
+
+        <div class="slidecontainer">
+            <input type="range" min="0" max="255" value="50" class="slider" id="greenSlide">
+        </div>
+        <br><br>
+
+        <div class="slidecontainer">
+            <input type="range" min="0" max="255" value="50" class="slider" id="blueSlide">
+        </div>
+        <br><br>
+
+        <script type="text/javascript">
+            var red = document.getElementById('redSlide'),
+            redDiv = document.getElementById("redInt");
+            red.onchange = function() {
+                $.getJSON('/colorLights', {
+                    val: this.value,
+                    color: "r"
+                },
+                    function(dat) {
+                });
+            }
+
+            var green = document.getElementById('greenSlide'),
+            greenDiv = document.getElementById("greenInt");
+            green.onchange = function() {
+                $.getJSON('/colorLights', {
+                    val: this.value,
+                    color: "g"
+                },
+                    function(dat) {
+                });
+            }
+
+            var blue = document.getElementById('blueSlide'),
+            blueDiv = document.getElementById("blueInt");
+            blue.onchange = function() {
+                $.getJSON('/colorLights', {
+                    val: this.value,
+                    color: "b"
+                },
+                    function(dat) {
+                });
+            }
+        </script>
+    </div>
+
+    <div id="sw">
+        <span> Weather: </span>
+        <br>
+        <br>
+        <span id="sw_1"></span>
+        <br>
+        <span id="sw_2"></span>
+        <br>
+        <span id="sw_3"></span>
+        <br>
+        <span id="sw_4"></span>
+        <br>
+        <span id="sw_5"></span>
+        <br>
+        <span id="sw_6"></span>
+        <br>
+        <br>
+        <img id="sw_7" src="placeholder.gif">
+    </div>
+
+    <div id="se">
+        <span> Server Stats: </span>
+        <br>
+        <br>
+        <span id="se_1"></span>
+        <br>
+        <span id="se_2"></span>
+        <br>
+        <span id="se_3"></span>
+        <br>
+        <br>
+        <span> Pi Stats: </span>
+        <br>
+        <br>
+        <span id="se_4"></span>
+        <br>
+        <span id="se_5"></span>
+        <br>
+        <span id="se_6"></span>
+    </div>
+
+    <p id="time" value="allText"> </p>
+
+</body>
+</html>

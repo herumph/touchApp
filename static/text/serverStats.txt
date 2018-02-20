@@ -1,0 +1,3 @@
+Memory Usage: 659/2000MB (32.95%)
+Disk Usage: 5/20GB (27%)
+CPU Load: 0.27
